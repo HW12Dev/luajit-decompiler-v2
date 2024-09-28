@@ -12,12 +12,13 @@ public:
 	#include "constants.h"
 	#include "instructions.h"
 
-	Bytecode(const std::string& filePath);
+	Bytecode(const std::string& filePath, const std::vector<char>& fileData);
 	~Bytecode();
 
 	void operator()();
 
 	const std::string filePath;
+	const std::vector<char> fileData;
 
 	struct {
 		uint8_t version = 0;

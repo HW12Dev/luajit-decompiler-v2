@@ -23,9 +23,9 @@ void Lua::operator()() {
 void Lua::write_header() {
 	if (!unrestrictedAscii) write(UTF8_BOM);
 	if (!bytecode.header.chunkname.size()) return;
-	write("-- chunkname: ");
-	write_string(bytecode.header.chunkname);
-	write(NEW_LINE, NEW_LINE);
+	//write("-- chunkname: ");
+	//write_string(bytecode.header.chunkname);
+	//write(NEW_LINE, NEW_LINE);
 }
 
 void Lua::write_block(const Ast::Function& function, const std::vector<Ast::Statement*>& block) {
@@ -1000,8 +1000,8 @@ void Lua::create_file() {
 
 		if (file != INVALID_HANDLE_VALUE) {
 			close_file();
-			assert(MessageBoxA(NULL, ("The file " + filePath + " already exists.\n\nDo you want to overwrite it?").c_str(), PROGRAM_NAME, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES,
-				"File already exists", filePath, DEBUG_INFO);
+			//assert(MessageBoxA(NULL, ("The file " + filePath + " already exists.\n\nDo you want to overwrite it?").c_str(), PROGRAM_NAME, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES,
+				//"File already exists", filePath, DEBUG_INFO);
 		}
 	}
 #endif

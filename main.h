@@ -7,7 +7,7 @@ Requirements:
 */
 
 #ifndef _CHAR_UNSIGNED
-#error Default char is not unsigned!
+//#error Default char is not unsigned!
 #endif
 
 #pragma comment(linker, "/stack:268435456")

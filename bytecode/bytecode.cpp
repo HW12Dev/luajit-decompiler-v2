@@ -1,6 +1,6 @@
 #include "..\main.h"
 
-Bytecode::Bytecode(const std::string& filePath) : filePath(filePath) {}
+Bytecode::Bytecode(const std::string& filePath, const std::vector<char>& fileData) : filePath(filePath), fileData(fileData) {}
 
 Bytecode::~Bytecode() {
 	close_file();
@@ -59,12 +59,14 @@ void Bytecode::read_prototypes() {
 }
 
 void Bytecode::open_file() {
-	file = CreateFileA(filePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
-	assert(file != INVALID_HANDLE_VALUE, "Unable to open file", filePath, DEBUG_INFO);
-	DWORD fileSizeHigh = 0;
-	fileSize = GetFileSize(file, &fileSizeHigh);
-	fileSize |= (uint64_t)fileSizeHigh << 32;
-	assert(fileSize >= MIN_FILE_SIZE, "File is too small or empty", filePath, DEBUG_INFO);
+	//file = CreateFileA(filePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+	//assert(file != INVALID_HANDLE_VALUE, "Unable to open file", filePath, DEBUG_INFO);
+	//DWORD fileSizeHigh = 0;
+	//fileSize = GetFileSize(file, &fileSizeHigh);
+	//fileSize |= (uint64_t)fileSizeHigh << 32;
+	//assert(fileSize >= MIN_FILE_SIZE, "File is too small or empty", filePath, DEBUG_INFO);
+	file == INVALID_HANDLE_VALUE;
+	fileSize = fileData.size();
 	bytesUnread = fileSize;
 }
 
@@ -78,7 +80,13 @@ void Bytecode::read_file(const uint32_t& byteCount) {
 	assert(bytesUnread >= byteCount, "Read would exceed end of file", filePath, DEBUG_INFO);
 	fileBuffer.resize(byteCount);
 	DWORD bytesRead = 0;
-	assert(ReadFile(file, fileBuffer.data(), byteCount, &bytesRead, NULL) && !(byteCount - bytesRead), "Failed to read file", filePath, DEBUG_INFO);
+	//assert(ReadFile(file, fileBuffer.data(), byteCount, &bytesRead, NULL) && !(byteCount - bytesRead), "Failed to read file", filePath, DEBUG_INFO);
+	bytesRead = byteCount;
+
+	auto offset = fileData.size() - bytesUnread;
+
+	fileBuffer = std::vector<uint8_t>(fileData.begin() + offset, fileData.begin() + offset + byteCount);
+
 	bytesUnread -= byteCount;
 }
 
